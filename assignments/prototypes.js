@@ -56,14 +56,14 @@ CharacterStats.prototype.takeDamage = function () {
 */
 
 function Humanoid(humAttr) {
-  GameObject.call(this, humAttr);
+  // GameObject.call(this, humAttr);   // NOT needed - CharacterStats inherited from GameObject!
   CharacterStats.call(this, humAttr);
   this.team = humAttr.team;
   this.weapons = humAttr.weapons;
   this.language = humAttr.language;
 }
 
-Humanoid.prototype = Object.create(GameObject.prototype);
+// Humanoid.prototype = Object.create(GameObject.prototype);  // NOT needed - CharacterStats inherited from GameObject!
 Humanoid.prototype = Object.create(CharacterStats.prototype);
 Humanoid.prototype.greet = function () {
   return `${this.name} offers a greeting in ${this.language}.`;
