@@ -69,6 +69,48 @@ Humanoid.prototype.greet = function () {
   return `${this.name} offers a greeting in ${this.language}.`;
 }
 
+// Villain and Hero constructor functions:
+
+function Villain(evil) {
+  Humanoid.call(this, evil);
+  this.laugh = evil.laugh;
+  this.influence = evil.influence;
+  this.strike = evil.strike;
+}
+
+Villain.prototype = Object.create(Humanoid.prototype);
+Villain.prototype.attack = function (enemy) {
+  console.log(this.laugh);
+  enemy.healthPoints = enemy.healthPoints - this.strike;
+  if (enemy.healthPoints <= 0) {
+    return `${this.name} attacked ${enemy.name}.`, enemy.destroy()
+  }
+  return `${this.name} attacked ${enemy.name}. ${enemy.name}'s health now at ${enemy.healthPoints}!`;
+}
+
+function Hero(triumph) {
+  Humanoid.call(this, triumph);
+  this.call = triumph.call;
+  this.influence = triumph.influence;
+  this.boost = triumph.boost;
+  this.strike = triumph.strike;
+}
+
+Hero.prototype = Object.create(Humanoid.prototype);
+Hero.prototype.attack = function (enemy) {
+  console.log(this.call);
+  enemy.healthPoints = enemy.healthPoints - this.strike;
+  if (enemy.healthPoints <= 0) {
+    return `${this.name} attacked ${enemy.name}.`, enemy.destroy()
+  }
+  return `${this.name} attacked ${enemy.name}. ${enemy.name}'s health now at ${enemy.healthPoints}!`;
+}
+
+Hero.prototype.useBoost = function () {
+  this.healthPoints = this.healthPoints + this.boost;
+  return `${this.name} used his boost, health now at ${this.healthPoints}.`
+}
+
 
 /*
  * Inheritance chain: GameObject -> CharacterStats -> Humanoid
@@ -129,6 +171,51 @@ const archer = new Humanoid({
   language: 'Elvish',
 });
 
+//Villian:
+const sorcerer = new Villain({
+  createdAt: new Date(),
+  dimensions: {
+    length: 3,
+    width: 2,
+    height: 5,
+  },
+  healthPoints: 20,
+  name: 'Sarumon',
+  team: 'Wite Council',
+  weapons: [
+    'Wizzard Staff',
+    'Dagger',
+    'Dark sorcery',
+  ],
+  language: 'Ancient Tongue',
+  laugh: "Mwahahahaha!!!",
+  influence: 5,
+  strike: 4,
+});
+
+//Hero:
+const ranger = new Hero({
+  createdAt: new Date(),
+  dimensions: {
+    length: 2,
+    width: 2,
+    height: 3,
+  },
+  healthPoints: 20,
+  name: 'Aragorn',
+  team: ' Rangers of the North',
+  weapons: [
+    ' Andúril'
+  ],
+  language: 'Ancient Tongue',
+  call: "Battle Horn Cry",
+  influence: 5,
+  boost: 10,
+  strike: 3,
+});
+
+
+
 console.log(mage.createdAt); // Today's date
 console.log(archer.dimensions); // { length: 1, width: 2, height: 4 }
 console.log(swordsman.healthPoints); // 15
@@ -139,7 +226,21 @@ console.log(archer.language); // Elvish
 console.log(archer.greet()); // Lilith offers a greeting in Elvish.
 console.log(mage.takeDamage()); // Bruce took damage.
 console.log(swordsman.destroy()); // Sir Mustachio was removed from the game.
-
+console.log(sorcerer.attack(ranger));
+console.log(ranger.attack(sorcerer));
+console.log(sorcerer.attack(ranger));
+console.log(ranger.attack(sorcerer));
+console.log(ranger.attack(sorcerer));
+console.log(sorcerer.attack(ranger));
+console.log(ranger.attack(sorcerer));
+console.log(sorcerer.attack(ranger));
+console.log(ranger.useBoost());
+console.log(sorcerer.attack(ranger));
+console.log(ranger.attack(sorcerer));
+console.log(ranger.attack(sorcerer));
+console.log(sorcerer.attack(ranger));
+console.log(sorcerer.attack(ranger));
+console.log(ranger.attack(sorcerer));
 
 // Stretch task: 
 // * Create Villain and Hero constructor functions that inherit from the Humanoid constructor function.  
